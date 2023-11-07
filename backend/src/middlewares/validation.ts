@@ -15,3 +15,19 @@ export const userRegistrationValidationCheck = [
      next();
    }
 ]
+
+export const loginValidationCheck = [
+    body('email')
+      .isEmail(),
+    
+    body('password') 
+      .isLength({ min: 4 }),
+  
+    (req: Request, res: Response, next: NextFunction) => {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: 'Login Validation failed' });
+      }
+      next();
+    }  
+  ]

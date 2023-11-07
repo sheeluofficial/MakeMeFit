@@ -1,6 +1,7 @@
 import UserModel from "../../models/userModel";
 import bcrypt from "bcryptjs";
 import customError from "../../utils/customError";
+import { generateJwtToken } from "../../middlewares/jwtAuth";
 
 const SALT_ROUNDS = 10;
 
@@ -34,8 +35,29 @@ const createAuthService = () => {
         }
       };
 
+      const userLogin = async (email: string, password: string) => {
+        try {
+          const user = await UserModel.findOne({ email });
+    
+          if (!user) {
+            throw new customError("User not found",404);
+          }
+    
+          const passwordMatch = await bcrypt.compare(password, user.password);
+          if (!passwordMatch) {
+            throw new customError("Invalid Email or Password",401);
+          }
+    
+          const token = generateJwtToken({ id: user._id.toString() , role:'users' });
+          return { token, user };
+        } catch (error: any) {
+          throw error;
+        }
+      };
+
       return {
-        userSignup
+        userSignup,
+        userLogin
       }
       
     }
