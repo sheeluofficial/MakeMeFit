@@ -8,9 +8,7 @@ const userSchema = new mongoose.Schema<User>({
        password : {type: String},
        isBlocked : {type: Boolean, required : true},
        profileImage : {type : String},
-       enrolledPrograms : [{type :  Schema.Types.ObjectId , ref : 'courses'}],
-       otp: String,
-       otpExpire: Date,
+       enrolledPrograms : [{type :  Schema.Types.ObjectId , ref : 'courses'}]
 });
 
 const userModel = mongoose.model<User>("user",userSchema);

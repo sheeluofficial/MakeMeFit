@@ -8,6 +8,4 @@ export interface User extends Document {
  isBlocked : boolean;
  profileImage : string;
  enrolledPrograms : Schema.Types.ObjectId[];
- otp : number;
- otpExpire: Date;
 }
