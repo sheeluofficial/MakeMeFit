@@ -33,3 +33,28 @@ export const userLoginController = asyncErrorWrapper ( async (req: Request, res:
     }
   });
 
+  export const sendEmailcontroller = async (req: Request, res: Response,next: NextFunction) => {
+    try {
+      console.log(req.body)
+      const { email }: any = req.body;
+      console.log('sendrrr mail',email)
+      await authService.sendOtp(email);
+      res.status(200).json({ message: "Otp sended to email" });
+    } catch (error: any) {
+      console.error(error);
+      return next(error);
+    //   res.status(400).json({ error:error.message });
+    }
+  };
+  
+  export const verifyOtpController = async(req :Request , res:Response,next : NextFunction) =>{
+    try{
+      const { otp, email } : any = req.body;
+      const result = await authService.verifyOtp(otp,email);
+      res.status(200).json(result)
+    }catch(error:any){
+      console.error(error);
+      return next(error);
+    }
+  }
+  
